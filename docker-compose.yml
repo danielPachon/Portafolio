@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  server:
+    build: ./server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    restart: always
+    volumes:
+      - .:/app  # Mapea el proyecto del servidor (en ./server) dentro del contenedor
+    environment:
+      - NODE_ENV=development
+    command: npm start  # Asegúrate de que este comando sea el correcto para iniciar el servidor
+
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root  # Define aquí la contraseña para el usuario root
+      MYSQL_DATABASE: contactsdb         # Nombre de la base de datos que quieres crear
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql  # Volumen para almacenar los datos de la base de datos
+
+volumes:
+  db_data:  # Volumen para persistir los datos de MySQL
