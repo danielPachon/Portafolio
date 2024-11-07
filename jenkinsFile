@@ -3,12 +3,12 @@ pipeline{
     stages{
         stage ('Build'){
             steps{
-              echo "Estapa BUILD no disponible"
+              echo "Etapa BUILD no disponible"
             }
         }
         stage ('Tests'){
             steps{
-              echo "Estapa TEST no disponible"
+              echo "Etapa TEST no disponible"
             }
         }
         stage ('Deploy'){
