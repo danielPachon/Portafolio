@@ -1,29 +1,39 @@
 version: '3.8'
 
 services:
-  server:
-    build: ./server
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "5000:5000"
-    depends_on:
-      - db
-    restart: always
+      - "3000:3000"  # Puerto para React
     volumes:
-      - .:/app  # Mapea el proyecto del servidor (en ./server) dentro del contenedor
+      - .:/app
+      - /app/node_modules  # Excluye la carpeta node_modules del host
+    stdin_open: true
+    tty: true
     environment:
-      - NODE_ENV=development
-    command: npm start  # Asegúrate de que este comando sea el correcto para iniciar el servidor
+      - CHOKIDAR_USEPOLLING=true  # Soluciona problemas de hot-reload en Docker
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"  # Puerto para el backend
+    volumes:
+      - ./server:/app  # Sincroniza la carpeta "server" con el contenedor
 
   db:
     image: mysql:latest
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root  # Define aquí la contraseña para el usuario root
-      MYSQL_DATABASE: contactsdb         # Nombre de la base de datos que quieres crear
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: contactsdb
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql  # Volumen para almacenar los datos de la base de datos
+      - db_data:/var/lib/mysql  # Volumen para persistir datos
 
 volumes:
-  db_data:  # Volumen para persistir los datos de MySQL
+  db_data:
