@@ -7,13 +7,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"  # Puerto para React
-    volumes:
-      - .:/app
-      - /app/node_modules  # Excluye la carpeta node_modules del host
+    environment:
+      - CHOKIDAR_USEPOLLING=true  # Hot-reload (en desarrollo)
     stdin_open: true
     tty: true
-    environment:
-      - CHOKIDAR_USEPOLLING=true  # Soluciona problemas de hot-reload en Docker
 
   server:
     build:
@@ -24,7 +21,7 @@ services:
     environment:
       - PORT=5000
     volumes:
-      - ./server:/app  # Sincroniza la carpeta "server" con el contenedor
+      - ./server:/app  # Para desarrollo
 
   db:
     image: mysql:latest
