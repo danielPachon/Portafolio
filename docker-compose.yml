@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"  # Puerto para React
+      - "80:80"  # Puerto para React
     volumes:
       - .:/app
       - /app/node_modules  # Excluye la carpeta node_modules del host
