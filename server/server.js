@@ -4,7 +4,7 @@ const mysql = require("mysql2");
 const cors = require("cors"); // Importa el paquete cors
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware para CORS
 app.use(cors()); // Permitir todas las solicitudes CORS
@@ -52,6 +52,6 @@ app.post("/api/contact", (req, res) => {
 });
 
 // Iniciar el servidor
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Servidor escuchando en http://0.0.0.0:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
